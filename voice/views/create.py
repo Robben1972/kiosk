@@ -79,6 +79,7 @@ class CreateChatAPIView(APIView):
         return Response(
             {
                 "answer": {
+                    "id": chat.id,
                     "text": bot_text,
                     "audio": bot_message.audio.url
                 }
