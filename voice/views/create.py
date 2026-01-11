@@ -89,6 +89,20 @@ class CreateChatAPIView(APIView):
 
 
 class AddMessageAPIView(APIView):
+    @extend_schema(
+        summary="Start a new chat",
+        description="Uploads an audio file, transcribes it, and generates an AI response.",
+        request={
+            'multipart/form-data': {
+                'type': 'object',
+                'properties': {
+                    'audio': {'type': 'string', 'format': 'binary'}
+                },
+                'required': ['clinic', 'audio']
+            }
+        },
+        responses={201: ChatSerializer}
+    )
     def post(self, request, chat_id):
         try:
             chat = Chat.objects.get(id=chat_id)
