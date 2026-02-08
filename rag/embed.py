@@ -6,7 +6,7 @@ import os
 DATA_DIR = "data/ezgu-niyat"
 EMBEDDINGS_FILE = "embeddings.pkl"
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = SentenceTransformer("BAAI/bge-m3")
 
 # ===== Load existing embeddings if exist =====
 if os.path.exists(EMBEDDINGS_FILE):

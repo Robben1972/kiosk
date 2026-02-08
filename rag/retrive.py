@@ -21,7 +21,7 @@ with open(EMB_PATH, "rb") as f:
 chunks = data["chunks"]
 embeddings = np.array(data["embeddings"])
 
-embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+embed_model = SentenceTransformer("BAAI/bge-m3")
 
 def input_prompt(query: str) -> str:
     query_emb = embed_model.encode([query])[0]
