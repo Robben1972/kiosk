@@ -11,7 +11,7 @@ api_key = env.str("OPENAI_API_KEY")
 # Initialize OpenAI client
 client = OpenAI(api_key=api_key)
 
-with open("embeddings.pkl", "rb") as f:
+with open("data/embeddings.pkl", "rb") as f:
     data = pickle.load(f)
 
 chunks = data["chunks"]
