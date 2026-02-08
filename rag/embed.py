@@ -29,12 +29,15 @@ def read_docx(file_path):
     return text
 
 # ===== Read all .txt and .docx files from data directory =====
+i = 0
 for filename in os.listdir(DATA_DIR):
     if filename.endswith(".txt"):
         file_path = os.path.join(DATA_DIR, filename)
         with open(file_path, "r", encoding="utf-8") as f:
             text = f.read()
     elif filename.endswith(".docx"):
+        print(f"Processing file {i+1}: {filename}")
+        i += 1
         file_path = os.path.join(DATA_DIR, filename)
         text = read_docx(file_path)
     else:
