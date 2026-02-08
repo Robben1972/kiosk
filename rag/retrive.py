@@ -19,16 +19,20 @@ with open(EMB_PATH, "rb") as f:
     data = pickle.load(f)
 
 chunks = data["chunks"]
-embeddings = np.array(data["embeddings"])
+embeddings = np.array(data["embeddings"], dtype=object) if isinstance(data["embeddings"], list) and len(data["embeddings"]) > 0 and not isinstance(data["embeddings"][0], (int, float)) else np.array(data["embeddings"])
 
 embed_model = SentenceTransformer("BAAI/bge-m3")
 
 def input_prompt(query: str) -> str:
     query_emb = embed_model.encode([query])[0]
 
-    scores = np.dot(embeddings, query_emb) / (
-        np.linalg.norm(embeddings, axis=1) * np.linalg.norm(query_emb)
-    )
+    # Handle both homogeneous and object arrays
+    if embeddings.dtype == object:
+        scores = np.array([np.dot(emb, query_emb) / (np.linalg.norm(emb) * np.linalg.norm(query_emb)) for emb in embeddings])
+    else:
+        scores = np.dot(embeddings, query_emb) / (
+            np.linalg.norm(embeddings, axis=1) * np.linalg.norm(query_emb)
+        )
 
     best_chunk = chunks[np.argmax(scores)]
 
