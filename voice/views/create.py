@@ -43,6 +43,7 @@ class CreateChatAPIView(APIView):
         chat = Chat.objects.create(clinic=clinic)
 
         user_text = stt(audio)
+        print(user_text)
         user_text = user_text.get("result", {}).get("conversation_text", "")[11:]
 
         user_message = Message.objects.create(

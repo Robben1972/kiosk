@@ -1,4 +1,5 @@
 from sentence_transformers import SentenceTransformer
+from docx import Document
 import pickle
 import os
 
@@ -19,16 +20,28 @@ else:
 
 new_chunks = []
 
-# ===== Read all .txt files from data directory =====
+def read_docx(file_path):
+    """Extract text from docx file"""
+    doc = Document(file_path)
+    text = ""
+    for para in doc.paragraphs:
+        text += para.text + "\n"
+    return text
+
+# ===== Read all .txt and .docx files from data directory =====
 for filename in os.listdir(DATA_DIR):
     if filename.endswith(".txt"):
         file_path = os.path.join(DATA_DIR, filename)
-
         with open(file_path, "r", encoding="utf-8") as f:
             text = f.read()
+    elif filename.endswith(".docx"):
+        file_path = os.path.join(DATA_DIR, filename)
+        text = read_docx(file_path)
+    else:
+        continue
 
-        file_chunks = [text[i:i+500] for i in range(0, len(text), 500)]
-        new_chunks.extend(file_chunks)
+    file_chunks = [text[i:i+500] for i in range(0, len(text), 500)]
+    new_chunks.extend(file_chunks)
 
 # ===== Generate embeddings for new chunks =====
 if new_chunks:
