@@ -52,7 +52,3 @@ def input_prompt(query: str) -> str:
     )
 
     return response.choices[0].message.content
-
-
-while True:
-    print(input_prompt(input("Savol: ")))
