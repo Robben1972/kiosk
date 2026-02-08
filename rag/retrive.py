@@ -3,6 +3,10 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 from environs import Env
+from django.conf import settings
+from pathlib import Path
+
+EMB_PATH = Path(settings.BASE_DIR) / "data" / "embeddings.pkl"
 
 env = Env()
 env.read_env()
@@ -11,7 +15,7 @@ api_key = env.str("OPENAI_API_KEY")
 # Initialize OpenAI client
 client = OpenAI(api_key=api_key)
 
-with open("data/embeddings.pkl", "rb") as f:
+with open(EMB_PATH, "rb") as f:
     data = pickle.load(f)
 
 chunks = data["chunks"]
