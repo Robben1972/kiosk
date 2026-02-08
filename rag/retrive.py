@@ -6,7 +6,7 @@ from environs import Env
 from django.conf import settings
 from pathlib import Path
 
-EMB_PATH = Path(settings.BASE_DIR) / "embeddings.pkl"
+EMB_PATH = "/root/diagno_kiosk/kiosk/rag/ragembeddings.pkl"
 
 env = Env()
 env.read_env()
